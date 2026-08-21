@@ -1,14 +1,31 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Fragment, useState } from "react";
-import { CalendarDays, Clock, Plus } from "lucide-react";
+import {
+  CalendarDays,
+  Clock,
+  Mail,
+  MapPin,
+  Phone,
+  Plus,
+  Sparkles,
+  Tag,
+  User,
+  Wallet,
+} from "lucide-react";
 import { toast } from "sonner";
 
 import { ChannelChip, StatusPill } from "@/components/brand";
 import { Button } from "@/components/ui/button";
-import { appointments } from "@/lib/mock-data";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { updateBookingStatus, useBookings, weekDays, type Booking } from "@/lib/bookings-store";
 import { cn } from "@/lib/utils";
 
-const days = ["Mon 17", "Tue 18", "Wed 19", "Thu 20", "Fri 21", "Sat 22", "Sun 23"];
 const hours = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"];
 
 export const Route = createFileRoute("/dashboard/calendar")({
@@ -18,7 +35,7 @@ export const Route = createFileRoute("/dashboard/calendar")({
       {
         name: "description",
         content:
-          "See every fitting, consultation and call your AI agent booked this week, synced to your working hours.",
+          "See every fitting, consultation and call your AI agent booked this week, tap any booking for full details, or add a manual booking yourself.",
       },
       { property: "og:title", content: "Calendar & Bookings — AutoAgent AI" },
       { property: "og:description", content: "Appointments your AI agent booked automatically." },
@@ -27,23 +44,34 @@ export const Route = createFileRoute("/dashboard/calendar")({
   component: CalendarPage,
 });
 
+const statusTone: Record<Booking["status"], string> = {
+  Confirmed: "border-accent/30 bg-accent/10 text-accent",
+  Pending: "border-amber-500/30 bg-amber-500/10 text-amber-500",
+  Cancelled: "border-destructive/30 bg-destructive/10 text-destructive",
+};
+
 function CalendarPage() {
-  const [selected, setSelected] = useState<number | null>(0);
+  const bookings = useBookings();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const selected = bookings.find((b) => b.id === selectedId) ?? null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h1 className="text-2xl font-semibold tracking-tight">Calendar</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Week of 17–23 August 2026 · {appointments.length} appointments booked by your agent.
+            Week of 17–23 August 2026 · {bookings.length} appointments · tap any booking for full
+            details.
           </p>
         </div>
         <div className="flex items-center gap-2">
           <StatusPill>Google Calendar synced</StatusPill>
-          <Button onClick={() => toast.success("Manual booking slot created")}>
-            <Plus className="size-4" />
-            New booking
+          <Button asChild>
+            <Link to="/dashboard/bookings/new">
+              <Plus className="size-4" />
+              New booking
+            </Link>
           </Button>
         </div>
       </div>
@@ -52,19 +80,16 @@ function CalendarPage() {
         <div className="min-w-[900px]">
           <div className="grid grid-cols-[70px_repeat(7,minmax(0,1fr))] gap-2">
             <div />
-            {days.map((d) => (
+            {weekDays.map((d) => (
               <div key={d} className="pb-2 text-center text-xs font-medium text-muted-foreground">
                 {d}
               </div>
             ))}
             {hours.map((h) => (
               <Fragment key={h}>
-                <div className="pt-2 text-right text-[11px] text-muted-foreground">
-                  {h}
-                </div>
-                {days.map((d, di) => {
-                  const slot = appointments.findIndex((a) => a.day === di && a.start === h);
-                  const appt = slot >= 0 ? appointments[slot] : undefined;
+                <div className="pt-2 text-right text-[11px] text-muted-foreground">{h}</div>
+                {weekDays.map((d, di) => {
+                  const appt = bookings.find((a) => a.day === di && a.start === h);
                   return (
                     <div
                       key={`${h}-${d}`}
@@ -72,10 +97,10 @@ function CalendarPage() {
                     >
                       {appt && (
                         <button
-                          onClick={() => setSelected(slot)}
+                          onClick={() => setSelectedId(appt.id)}
                           className={cn(
                             "h-full w-full rounded-md border border-primary/40 bg-primary/15 p-1.5 text-left transition-colors hover:bg-primary/25",
-                            selected === slot && "ring-1 ring-primary",
+                            selectedId === appt.id && "ring-1 ring-primary",
                           )}
                         >
                           <p className="line-clamp-2 text-[11px] font-medium">{appt.title}</p>
@@ -98,19 +123,31 @@ function CalendarPage() {
             Upcoming appointments
           </h2>
           <ul className="space-y-3">
-            {appointments.map((a, i) => (
-              <li
-                key={i}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-secondary/40 p-3"
-              >
-                <div>
-                  <p className="text-sm font-medium">{a.title}</p>
-                  <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <Clock className="size-3.5" />
-                    {days[a.day]} · {a.start} · {a.dur}
-                  </p>
-                </div>
-                <ChannelChip channel={a.channel} />
+            {bookings.map((a) => (
+              <li key={a.id}>
+                <button
+                  onClick={() => setSelectedId(a.id)}
+                  className="flex w-full flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-secondary/40 p-3 text-left transition-colors hover:bg-secondary/70"
+                >
+                  <div>
+                    <p className="text-sm font-medium">{a.title}</p>
+                    <p className="mt-1 flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <Clock className="size-3.5" />
+                      {weekDays[a.day]} · {a.start} · {a.dur}
+                    </p>
+                  </div>
+                  <span className="flex items-center gap-2">
+                    <span
+                      className={cn(
+                        "rounded-full border px-2 py-0.5 text-[10px] font-medium",
+                        statusTone[a.status],
+                      )}
+                    >
+                      {a.status}
+                    </span>
+                    <ChannelChip channel={a.channel} />
+                  </span>
+                </button>
               </li>
             ))}
           </ul>
@@ -137,6 +174,91 @@ function CalendarPage() {
           </p>
         </div>
       </div>
+
+      <Dialog open={!!selected} onOpenChange={(o) => !o && setSelectedId(null)}>
+        <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-lg">
+          {selected && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="pr-6 text-base">{selected.title}</DialogTitle>
+                <DialogDescription>
+                  {weekDays[selected.day]} · {selected.start} · {selected.dur} · Booking{" "}
+                  {selected.id}
+                </DialogDescription>
+              </DialogHeader>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <span
+                  className={cn(
+                    "rounded-full border px-2 py-0.5 text-[11px] font-medium",
+                    statusTone[selected.status],
+                  )}
+                >
+                  {selected.status}
+                </span>
+                <ChannelChip channel={selected.channel} />
+                <span className="inline-flex items-center gap-1 rounded-full border border-border bg-secondary/60 px-2 py-0.5 text-[11px] text-muted-foreground">
+                  <Sparkles className="size-3" />
+                  Booked by {selected.source}
+                </span>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                {[
+                  { icon: User, label: "Customer", value: selected.customer },
+                  { icon: Phone, label: "Phone", value: selected.phone },
+                  { icon: Mail, label: "Email", value: selected.email },
+                  { icon: Tag, label: "Service", value: selected.service },
+                  { icon: Wallet, label: "Value", value: selected.price },
+                  { icon: MapPin, label: "Location", value: selected.location },
+                ].map((f) => (
+                  <div key={f.label} className="rounded-xl border border-border bg-secondary/40 p-3">
+                    <p className="flex items-center gap-1.5 text-[11px] tracking-wide text-muted-foreground uppercase">
+                      <f.icon className="size-3.5" />
+                      {f.label}
+                    </p>
+                    <p className="mt-1 text-sm break-words">{f.value}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="rounded-xl border border-border bg-secondary/40 p-3">
+                <p className="text-[11px] tracking-wide text-muted-foreground uppercase">Notes</p>
+                <p className="mt-1 text-sm">{selected.notes || "No notes added."}</p>
+              </div>
+
+              <div className="flex flex-wrap gap-2">
+                {selected.status !== "Confirmed" && (
+                  <Button
+                    size="sm"
+                    onClick={() => {
+                      updateBookingStatus(selected.id, "Confirmed");
+                      toast.success("Booking confirmed");
+                    }}
+                  >
+                    Confirm
+                  </Button>
+                )}
+                {selected.status !== "Cancelled" && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      updateBookingStatus(selected.id, "Cancelled");
+                      toast("Booking cancelled");
+                    }}
+                  >
+                    Cancel booking
+                  </Button>
+                )}
+                <Button size="sm" variant="ghost" asChild>
+                  <Link to="/dashboard/inbox">Open customer chat</Link>
+                </Button>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
