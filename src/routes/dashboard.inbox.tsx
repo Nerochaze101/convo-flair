@@ -38,8 +38,17 @@ import { conversations as seed, type Conversation, type ChannelKey } from "@/lib
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/dashboard/inbox")({
-  validateSearch: (search: Record<string, unknown>): { thread?: string } =>
-    typeof search["thread"] === "string" ? { thread: search["thread"] } : {},
+  validateSearch: (
+    search: Record<string, unknown>,
+  ): { thread?: string; from?: "notifications"; filter?: "all" | "unread" } => ({
+    ...(typeof search["thread"] === "string" ? { thread: search["thread"] } : {}),
+    ...(search["from"] === "notifications" ? { from: "notifications" as const } : {}),
+    ...(search["filter"] === "unread"
+      ? { filter: "unread" as const }
+      : search["filter"] === "all"
+        ? { filter: "all" as const }
+        : {}),
+  }),
   head: () => ({
     meta: [
       { title: "Unified Inbox — AutoAgent AI" },
