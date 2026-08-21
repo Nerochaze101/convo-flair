@@ -10,33 +10,232 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as AuthLoginRouteImport } from './routes/auth.login'
+import { Route as AuthSignupRouteImport } from './routes/auth.signup'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardAiBrainRouteImport } from './routes/dashboard.ai-brain'
+import { Route as DashboardAnalyticsRouteImport } from './routes/dashboard.analytics'
+import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
+import { Route as DashboardCalendarRouteImport } from './routes/dashboard.calendar'
+import { Route as DashboardInboxRouteImport } from './routes/dashboard.inbox'
+import { Route as DashboardIntegrationsRouteImport } from './routes/dashboard.integrations'
+import { Route as DashboardLeadsRouteImport } from './routes/dashboard.leads'
+import { Route as DashboardNotificationsRouteImport } from './routes/dashboard.notifications'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
+import { Route as DashboardBookingsNewRouteImport } from './routes/dashboard.bookings.new'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/auth/signup',
+  path: '/auth/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAiBrainRoute = DashboardAiBrainRouteImport.update({
+  id: '/ai-brain',
+  path: '/ai-brain',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardAnalyticsRoute = DashboardAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardBillingRoute = DashboardBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardCalendarRoute = DashboardCalendarRouteImport.update({
+  id: '/calendar',
+  path: '/calendar',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardInboxRoute = DashboardInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardIntegrationsRoute = DashboardIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardLeadsRoute = DashboardLeadsRouteImport.update({
+  id: '/leads',
+  path: '/leads',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardNotificationsRoute = DashboardNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardBookingsNewRoute = DashboardBookingsNewRouteImport.update({
+  id: '/bookings/new',
+  path: '/bookings/new',
+  getParentRoute: () => DashboardRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
+  '/pricing': typeof PricingRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
+  '/dashboard/ai-brain': typeof DashboardAiBrainRoute
+  '/dashboard/analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
+  '/dashboard/inbox': typeof DashboardInboxRoute
+  '/dashboard/integrations': typeof DashboardIntegrationsRoute
+  '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/bookings/new': typeof DashboardBookingsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
+  '/pricing': typeof PricingRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
+  '/dashboard/ai-brain': typeof DashboardAiBrainRoute
+  '/dashboard/analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
+  '/dashboard/inbox': typeof DashboardInboxRoute
+  '/dashboard/integrations': typeof DashboardIntegrationsRoute
+  '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/dashboard/bookings/new': typeof DashboardBookingsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
+  '/pricing': typeof PricingRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
+  '/dashboard/ai-brain': typeof DashboardAiBrainRoute
+  '/dashboard/analytics': typeof DashboardAnalyticsRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
+  '/dashboard/inbox': typeof DashboardInboxRoute
+  '/dashboard/integrations': typeof DashboardIntegrationsRoute
+  '/dashboard/leads': typeof DashboardLeadsRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/dashboard/bookings/new': typeof DashboardBookingsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/onboarding'
+    | '/pricing'
+    | '/auth/login'
+    | '/auth/signup'
+    | '/dashboard/ai-brain'
+    | '/dashboard/analytics'
+    | '/dashboard/billing'
+    | '/dashboard/calendar'
+    | '/dashboard/inbox'
+    | '/dashboard/integrations'
+    | '/dashboard/leads'
+    | '/dashboard/notifications'
+    | '/dashboard/settings'
+    | '/dashboard/'
+    | '/dashboard/bookings/new'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/onboarding'
+    | '/pricing'
+    | '/auth/login'
+    | '/auth/signup'
+    | '/dashboard/ai-brain'
+    | '/dashboard/analytics'
+    | '/dashboard/billing'
+    | '/dashboard/calendar'
+    | '/dashboard/inbox'
+    | '/dashboard/integrations'
+    | '/dashboard/leads'
+    | '/dashboard/notifications'
+    | '/dashboard/settings'
+    | '/dashboard'
+    | '/dashboard/bookings/new'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/onboarding'
+    | '/pricing'
+    | '/auth/login'
+    | '/auth/signup'
+    | '/dashboard/ai-brain'
+    | '/dashboard/analytics'
+    | '/dashboard/billing'
+    | '/dashboard/calendar'
+    | '/dashboard/inbox'
+    | '/dashboard/integrations'
+    | '/dashboard/leads'
+    | '/dashboard/notifications'
+    | '/dashboard/settings'
+    | '/dashboard/'
+    | '/dashboard/bookings/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  OnboardingRoute: typeof OnboardingRoute
+  PricingRoute: typeof PricingRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthSignupRoute: typeof AuthSignupRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +247,160 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/signup': {
+      id: '/auth/signup'
+      path: '/auth/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/ai-brain': {
+      id: '/dashboard/ai-brain'
+      path: '/ai-brain'
+      fullPath: '/dashboard/ai-brain'
+      preLoaderRoute: typeof DashboardAiBrainRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/analytics': {
+      id: '/dashboard/analytics'
+      path: '/analytics'
+      fullPath: '/dashboard/analytics'
+      preLoaderRoute: typeof DashboardAnalyticsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/billing': {
+      id: '/dashboard/billing'
+      path: '/billing'
+      fullPath: '/dashboard/billing'
+      preLoaderRoute: typeof DashboardBillingRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/calendar': {
+      id: '/dashboard/calendar'
+      path: '/calendar'
+      fullPath: '/dashboard/calendar'
+      preLoaderRoute: typeof DashboardCalendarRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/inbox': {
+      id: '/dashboard/inbox'
+      path: '/inbox'
+      fullPath: '/dashboard/inbox'
+      preLoaderRoute: typeof DashboardInboxRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/integrations': {
+      id: '/dashboard/integrations'
+      path: '/integrations'
+      fullPath: '/dashboard/integrations'
+      preLoaderRoute: typeof DashboardIntegrationsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/leads': {
+      id: '/dashboard/leads'
+      path: '/leads'
+      fullPath: '/dashboard/leads'
+      preLoaderRoute: typeof DashboardLeadsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/notifications': {
+      id: '/dashboard/notifications'
+      path: '/notifications'
+      fullPath: '/dashboard/notifications'
+      preLoaderRoute: typeof DashboardNotificationsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/bookings/new': {
+      id: '/dashboard/bookings/new'
+      path: '/bookings/new'
+      fullPath: '/dashboard/bookings/new'
+      preLoaderRoute: typeof DashboardBookingsNewRouteImport
+      parentRoute: typeof DashboardRoute
+    }
   }
 }
 
+interface DashboardRouteChildren {
+  DashboardAiBrainRoute: typeof DashboardAiBrainRoute
+  DashboardAnalyticsRoute: typeof DashboardAnalyticsRoute
+  DashboardBillingRoute: typeof DashboardBillingRoute
+  DashboardCalendarRoute: typeof DashboardCalendarRoute
+  DashboardInboxRoute: typeof DashboardInboxRoute
+  DashboardIntegrationsRoute: typeof DashboardIntegrationsRoute
+  DashboardLeadsRoute: typeof DashboardLeadsRoute
+  DashboardNotificationsRoute: typeof DashboardNotificationsRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardBookingsNewRoute: typeof DashboardBookingsNewRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardAiBrainRoute: DashboardAiBrainRoute,
+  DashboardAnalyticsRoute: DashboardAnalyticsRoute,
+  DashboardBillingRoute: DashboardBillingRoute,
+  DashboardCalendarRoute: DashboardCalendarRoute,
+  DashboardInboxRoute: DashboardInboxRoute,
+  DashboardIntegrationsRoute: DashboardIntegrationsRoute,
+  DashboardLeadsRoute: DashboardLeadsRoute,
+  DashboardNotificationsRoute: DashboardNotificationsRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardBookingsNewRoute: DashboardBookingsNewRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  OnboardingRoute: OnboardingRoute,
+  PricingRoute: PricingRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthSignupRoute: AuthSignupRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
