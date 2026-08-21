@@ -111,6 +111,7 @@ function InboxPage() {
   const [channels, setChannels] = useState<ChannelKey[]>([]);
   const [draft, setDraft] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
+  const composerRef = useRef<HTMLTextAreaElement>(null);
 
   const allChannels = useMemo(
     () => Array.from(new Set(seed.map((t) => t.channel))) as ChannelKey[],
@@ -173,6 +174,8 @@ function InboxPage() {
       messages: [...active.messages, { from: "agent" as const, text: draft, time: "now" }],
     });
     setDraft("");
+    if (composerRef.current) composerRef.current.style.height = "auto";
+    composerRef.current?.focus();
     toast.success("Message sent — AI paused on this thread");
   };
 
@@ -491,6 +494,7 @@ function InboxPage() {
               </div>
               <div className="flex items-end gap-2">
                 <Textarea
+                  ref={composerRef}
                   value={draft}
                   onChange={(e) => {
                     setDraft(e.target.value);
