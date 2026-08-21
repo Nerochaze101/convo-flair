@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 70">
+  <defs>
+    <linearGradient id="brainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0751C5" />
+      <stop offset="50%" stop-color="#137BFF" />
+      <stop offset="100%" stop-color="#42AAFF" />
+    </linearGradient>
+    <filter id="coreGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="0" stdDeviation="2.5" flood-color="#137BFF" flood-opacity="0.14" />
+      <feDropShadow dx="0" dy="0" stdDeviation="7" flood-color="#137BFF" flood-opacity="0.06" />
+    </filter>
+    <filter id="aiGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Brain icon -->
+  <g transform="translate(0, 3)">
+    <path
+      class="brain-outline"
+      fill="rgba(19, 123, 255, 0.035)"
+      stroke="url(#brainGradient)"
+      stroke-width="3.1"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      d="M 34 7 C 43 6 51 12 53 21 C 54 27 51 33 47 36 C 50 39 50 44 47 48 C 44 53 37 56 31 54 C 27 53 25 50 26 46 C 22 47 18 44 16 39 C 13 31 14 21 20 14 C 24 9 29 7 34 7 Z"
+    />
+    <path
+      class="brain-fold"
+      fill="none"
+      stroke="#42AAFF"
+      stroke-width="1.9"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      opacity="0.78"
+      d="M 22 17 C 28 13 37 15 41 21 M 18 29 C 26 26 35 29 40 35 M 21 39 C 27 37 34 39 37 45"
+    />
+    <path
+      class="brain-fold-secondary"
+      fill="none"
+      stroke="#A4DDFF"
+      stroke-width="1.35"
+      stroke-linecap="round"
+      opacity="0.68"
+      d="M 28 21 C 32 19 38 21 41 26 M 24 33 C 29 31 35 33 38 38"
+    />
+    <path
+      class="brain-center"
+      fill="none"
+      stroke="#A4DDFF"
+      stroke-width="1.7"
+      stroke-linecap="round"
+      opacity="0.86"
+      d="M 33 11 C 33 22 32 33 30 45"
+    />
+    <circle
+      class="brain-core-ring"
+      cx="27"
+      cy="32"
+      r="5"
+      fill="none"
+      stroke="#42AAFF"
+      stroke-width="1"
+      opacity="0.35"
+    />
+    <circle
+      class="brain-core"
+      cx="27"
+      cy="32"
+      r="2.5"
+      fill="#FFFFFF"
+      stroke="#137BFF"
+      stroke-width="1.5"
+      filter="url(#coreGlow)"
+    />
+  </g>
+
+  <!-- AutoAgent wordmark -->
+  <text
+    x="80"
+    y="41"
+    font-family="Trebuchet MS, 'Trebuchet MS', Arial, sans-serif"
+    font-size="40"
+    font-weight="700"
+    letter-spacing="-2.7"
+    fill="#0B70DD"
+    filter="url(#textShadow)"
+  >
+    AutoAgent
+  </text>
+  <!-- Subtle stroke overlay -->
+  <text
+    x="80"
+    y="41"
+    font-family="Trebuchet MS, 'Trebuchet MS', Arial, sans-serif"
+    font-size="40"
+    font-weight="700"
+    letter-spacing="-2.7"
+    fill="none"
+    stroke="rgba(164, 221, 255, 0.38)"
+    stroke-width="0.4"
+    opacity="0.55"
+  >
+    AutoAgent
+  </text>
+
+  <!-- AI badge -->
+  <g transform="translate(290, 17)">
+    <circle cx="2" cy="3" r="2" fill="#A4DDFF" filter="url(#aiGlow)" />
+    <text
+      x="10"
+      y="8"
+      font-family="Segoe UI, 'Segoe UI', Arial, sans-serif"
+      font-size="18"
+      font-weight="800"
+      letter-spacing="0.4"
+      fill="#42AAFF"
+      filter="url(#aiGlow)"
+    >
+      AI
+    </text>
+    <line
+      x1="10"
+      y1="19"
+      x2="34"
+      y2="19"
+      stroke="#42AAFF"
+      stroke-width="1"
+      opacity="0.5"
+      stroke-linecap="round"
+    />
+  </g>
+</svg>
