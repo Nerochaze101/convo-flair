@@ -30,7 +30,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { notifications } from "@/lib/mock-data";
+import { markNotificationRead, useNotifications } from "@/lib/notification-store";
 import { cn } from "@/lib/utils";
 
 const nav = [
@@ -50,6 +50,8 @@ export const Route = createFileRoute("/dashboard")({
 
 function DashboardLayout() {
   const [collapsed, setCollapsed] = useState(false);
+  const notifications = useNotifications();
+  const unreadNotifications = notifications.filter((n) => !n.read).length;
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const title = nav.find((n) => pathname.startsWith(n.to))?.label ?? "Dashboard";
 
@@ -119,16 +121,35 @@ function DashboardLayout() {
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="relative" aria-label="Notifications">
                 <Bell className="size-4" />
-                <span className="absolute top-1.5 right-1.5 size-2 rounded-full bg-accent" />
+                {unreadNotifications > 0 && (
+                  <span className="absolute top-1 right-1 grid min-w-4 place-items-center rounded-full bg-accent px-1 text-[10px] font-semibold text-accent-foreground">
+                    {unreadNotifications}
+                  </span>
+                )}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-80">
               <DropdownMenuLabel>Notifications</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {notifications.map((n) => (
-                <DropdownMenuItem key={n.title} asChild className="flex-col items-start gap-0.5 py-2.5">
-                  <Link to="/dashboard/notifications">
-                    <span className="text-xs font-medium">{n.title}</span>
+                <DropdownMenuItem
+                  key={n.id}
+                  asChild
+                  className={cn("flex-col items-start gap-0.5 py-2.5", !n.read && "bg-primary/5")}
+                >
+                  <Link
+                    to={n.to}
+                    search={
+                      n.threadId
+                        ? { thread: n.threadId, from: "notifications" as const, filter: "all" as const }
+                        : undefined
+                    }
+                    onClick={() => markNotificationRead(n.id)}
+                  >
+                    <span className="flex w-full items-center gap-2 text-xs font-medium">
+                      {n.title}
+                      {!n.read && <span className="ml-auto size-2 rounded-full bg-primary" />}
+                    </span>
                     <span className="text-[11px] text-muted-foreground">{n.body}</span>
                     <span className="text-[10px] text-muted-foreground">{n.time}</span>
                   </Link>
