@@ -246,6 +246,9 @@ function InboxPage() {
               className={cn(
                 "flex w-full gap-3 border-b border-border/60 p-3 text-left transition-colors hover:bg-secondary/60",
                 t.id === activeId && "bg-secondary",
+                cameFromNotifications &&
+                  t.id === threadParam &&
+                  "bg-primary/10 ring-1 ring-primary/50 ring-inset",
               )}
             >
               <span className="relative mt-0.5 grid size-9 shrink-0 place-items-center rounded-full bg-primary/15 text-xs font-semibold text-primary">
