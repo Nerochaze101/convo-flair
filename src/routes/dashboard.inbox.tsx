@@ -492,10 +492,21 @@ function InboxPage() {
               <div className="flex items-end gap-2">
                 <Textarea
                   value={draft}
-                  onChange={(e) => setDraft(e.target.value)}
+                  onChange={(e) => {
+                    setDraft(e.target.value);
+                    const el = e.currentTarget;
+                    el.style.height = "auto";
+                    el.style.height = `${Math.min(el.scrollHeight, 128)}px`;
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && !e.shiftKey) {
+                      e.preventDefault();
+                      send();
+                    }
+                  }}
                   rows={1}
-                  placeholder="Reply as a human agent…  (tap Send to deliver)"
-                  className="max-h-32 min-h-[42px] resize-none"
+                  placeholder="Type a message"
+                  className="max-h-32 min-h-[42px] resize-none rounded-2xl bg-secondary/60 py-2.5 text-foreground caret-primary"
                 />
                 <Button onClick={send} disabled={!draft.trim()} aria-label="Send reply">
                   <Send className="size-4" />
