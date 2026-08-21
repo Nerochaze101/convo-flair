@@ -100,7 +100,8 @@ const initials = (name: string) =>
     .toUpperCase();
 
 function InboxPage() {
-  const { thread: threadParam } = Route.useSearch();
+  const { thread: threadParam, from, filter: notifFilter } = Route.useSearch();
+  const cameFromNotifications = from === "notifications";
   const [threads, setThreads] = useState<Thread[]>(seed);
   const [activeId, setActiveId] = useState<string | null>(
     threadParam && seed.some((t) => t.id === threadParam) ? threadParam : seed[0]!.id,
