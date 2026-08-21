@@ -318,6 +318,21 @@ function InboxPage() {
           </div>
         ) : (
           <>
+            {cameFromNotifications && (
+              <div className="flex items-center gap-2 border-b border-border bg-primary/5 px-3 py-2 text-xs sm:px-4">
+                <Link
+                  to="/dashboard/notifications"
+                  search={notifFilter === "unread" ? { filter: "unread" as const } : {}}
+                  className="inline-flex items-center gap-1.5 font-medium text-primary hover:underline"
+                >
+                  <ArrowLeft className="size-3.5" />
+                  Back to notifications
+                </Link>
+                <span className="text-muted-foreground">
+                  Opened from a notification — this conversation is highlighted.
+                </span>
+              </div>
+            )}
             <header className="flex items-center justify-between gap-3 border-b border-border p-3 sm:p-4">
               <div className="flex min-w-0 items-center gap-3">
                 <Button
